@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Tino</string>
+
+    <!-- Account -->
+    <string name="account_statistics_from_username">Statistics from username</string>
+    <string name="account_save_username_error">Error while saving username</string>
+    <string name="account_user_not_exist" >User \"%s\" does not exist</string>
+
+    <!-- Statistics -->
+    <string name="statistics_notification_count">You received %d notifications</string>
+    <string name="statistics_notification_idle_time">You have a idle time from all notifications of %s</string>
+    <string name="statistics_notification_most_from_app">You received from %s the most notifications: %d</string>
+    <string name="statistics_notification_longest_idle_time_from_app">The longest notification idled for %s from %s</string>
+    <string name="statistics_counting_since">Counting since:\n%s</string>
+
+    <!-- Debug -->
+    <string name="debug_test_notification">Test notification</string>
+    <string name="debug_listener_access">Listener access</string>
+    <string name="debug_stored_notifications">Show stored notifications</string>
+
+    <!-- Generic -->
+    <string name="generic_account">Account</string>
+    <string name="generic_username">Username</string>
+    <string name="generic_save">Save</string>
+    <string name="generic_search">Search</string>
+    <string name="generic_statistics">Statistics</string>
+
+</resources>

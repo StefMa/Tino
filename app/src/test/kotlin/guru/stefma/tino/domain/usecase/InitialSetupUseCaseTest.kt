@@ -1,0 +1,98 @@
+package guru.stefma.tino.domain.usecase
+
+import guru.stefma.tino.mocks.MockAuthentication
+import guru.stefma.tino.mocks.MockStore
+import guru.stefma.tino.store.UID
+import guru.stefma.tino.store.UserName
+import guru.stefma.tino.store.UserWithUidDoesNotExist
+import org.junit.jupiter.api.Test
+
+class InitialSetupUseCaseTest {
+
+    private val authentication = MockAuthentication()
+
+    private val store = MockStore()
+
+    private val generateUserNameAndSave = object : GenerateUserNameAndStore {
+        override suspend fun invoke() = Unit
+    }
+
+    @Test
+    fun `test usecase on success`() {
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        val testObserver = useCase.invoke().test()
+
+        testObserver.await()
+        testObserver.assertValue(true)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+    }
+
+    @Test
+    fun `test usecase on create users failure`() {
+        val authentication = object : MockAuthentication() {
+            override val uid: String = ""
+
+            override suspend fun createAnonymousUser(): Unit = throw Error()
+        }
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        val testObserver = useCase.invoke().test()
+
+        testObserver.await()
+        testObserver.assertValue(false)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+    }
+
+    @Test
+    fun `test usecase on getUserName failure`() {
+        val store = object : MockStore() {
+            override suspend fun getUserName(uid: UID): UserName {
+                throw UserWithUidDoesNotExist(uid)
+            }
+        }
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        val testObserver = useCase.invoke().test()
+
+        testObserver.await()
+        testObserver.assertValue(true)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+    }
+
+    @Test
+    fun `test usecase on named generator failure`() {
+        val generateUserNameAndSave = object : GenerateUserNameAndStore {
+            override suspend fun invoke() = throw Error()
+        }
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        val testObserver = useCase.invoke().test()
+
+        testObserver.await()
+        testObserver.assertValue(false)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+    }
+
+    @Test
+    fun `test usecase on getCreationDate failure`() {
+        val store = object : MockStore() {
+            override suspend fun getCreationDate(uid: UID): Long {
+                throw Error()
+            }
+        }
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        val testObserver = useCase.invoke().test()
+
+        testObserver.await()
+        testObserver.assertValue(true)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+    }
+
+}
