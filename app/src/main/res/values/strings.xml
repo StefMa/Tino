@@ -12,6 +12,7 @@
     <string name="statistics_notification_most_from_app">You received from %s the most notifications: %d</string>
     <string name="statistics_notification_longest_idle_time_from_app">The longest notification idled for %s from %s</string>
     <string name="statistics_counting_since">Counting since:\n%s</string>
+    <string name="statistics_per_app">Statistics per App</string>
 
     <!-- Debug -->
     <string name="debug_test_notification">Test notification</string>

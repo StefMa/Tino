@@ -64,7 +64,6 @@ class StatisticsFragment : Fragment() {
                 it.longestIdled.first
             )
             collectStatisticSince.text = Date(it.creationDate * 1000).toString()
-            //mostNotificationInTimeRange.text = "TODO"
         }
     }
 
