@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), FragmentNavigator {
         with(supportFragmentManager) {
             if (tag != null && findFragmentByTag(tag) != null) return@with // Don't add the fragment if its already added
             beginTransaction()
-                .add(R.id.container, fragment, tag)
+                .replace(R.id.container, fragment, tag)
                 .apply { if (addToBackStack) addToBackStack(fragment::class.java.simpleName) }
                 .commit()
         }
