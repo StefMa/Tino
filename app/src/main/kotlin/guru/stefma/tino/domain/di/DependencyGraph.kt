@@ -9,7 +9,6 @@ import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.domain.usecase.*
 import guru.stefma.tino.namegenerator.NameGenerator
 import guru.stefma.tino.store.Store
-import io.reactivex.Single
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -36,6 +35,7 @@ interface DependencyGraph {
     val getAllNotificationsAverageTime: GetAllNotificationsAverageTimeUseCase
     val getCreationDate: GetCreationDateUseCase
     val getAllApplicationIds: GetAllApplicationIdsUseCase
+    val getStatisticsForApplicationId: GetStatisticsForApplicationIdUseCase
 }
 
 @Module
@@ -82,7 +82,7 @@ class DataModule {
 class UseCaseModule {
 
     @Provides
-    fun provideGetAllNotifications(store: Store): ParamizedUseCase<GetAllNotificationsUseCase.Params, Single<List<Store.Data>>> =
+    fun provideGetAllNotifications(store: Store): GetAllNotifications =
         GetAllNotificationsUseCase(store)
 
     @Provides
@@ -90,6 +90,22 @@ class UseCaseModule {
         store: Store,
         nameGenerator: NameGenerator,
         authentication: Authentication
-    ): SuspendingUseCase<Unit> =
+    ): GenerateUserNameAndStore =
         GenerateUserNameAndStoreUseCase(store, nameGenerator, authentication)
+
+    @Provides
+    fun provideGetAllNotificationsCountForApplicationId(getAllNotifications: GetAllNotifications): GetAllNotificationsCountForApplicationId =
+        GetAllNotificationsCountForApplicationIdUseCase(getAllNotifications)
+
+    @Provides
+    fun provideGetAllNotificationsIdleTimeForApplicationId(getAllNotifications: GetAllNotifications): GetAllNotificationsIdleTimeForApplicationId =
+        GetAllNotificationsIdleTimeForApplicationIdUseCase(getAllNotifications)
+
+    @Provides
+    fun provideGetLongestNotificationIdledForApplicationId(getAllNotifications: GetAllNotifications): GetLongestNotificationIdledForApplicationId =
+        GetLongestNotificationIdledForApplicationIdUseCase(getAllNotifications)
+
+    @Provides
+    fun provideGetAllNotificationsAverageTimeForApplicationIdUseCase(getAllNotifications: GetAllNotifications): GetAllNotificationsAverageTimeForApplicationId =
+        GetAllNotificationsAverageTimeForApplicationIdUseCase(getAllNotifications)
 }
