@@ -14,6 +14,12 @@
     <string name="statistics_counting_since">Counting since:\n%s</string>
     <string name="statistics_per_app">Statistics per App</string>
 
+    <!-- Single App Statistics -->
+    <string name="statistics_single_app_notification_count">You received %d notifications</string>
+    <string name="statistics_single_app_notification_idle_time">You have a idle time from all notifications of %s</string>
+    <string name="statistics_single_app_notification_longest_idle_time">The longest notification idled for %s</string>
+    <string name="statistics_single_app_notification_average">Your notifications idled for %s in average</string>
+
     <!-- Debug -->
     <string name="debug_test_notification">Test notification</string>
     <string name="debug_listener_access">Listener access</string>

@@ -14,6 +14,12 @@
     <string name="statistics_counting_since">Zaehle seit:\n%s</string>
     <string name="statistics_per_app">Statistiken per App</string>
 
+    <!-- Single App Statistics -->
+    <string name="statistics_single_app_notification_count">Du erhielst %d notifications</string>
+    <string name="statistics_single_app_notification_idle_time">Du hast eine Wartezeit von allen notification von %s</string>
+    <string name="statistics_single_app_notification_longest_idle_time">Die laengste Wartzeit einer notification war für %s</string>
+    <string name="statistics_single_app_notification_average">Im hast eine durchschnittliche Wartzeit sind deine notifications von %s</string>
+
     <!-- Debug -->
     <string name="debug_test_notification">Test notification</string>
     <string name="debug_listener_access">Listener zugriff</string>

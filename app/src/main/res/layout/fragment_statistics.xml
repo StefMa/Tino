@@ -60,7 +60,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="ou have a idle time from all notifications of 1h:03m:12s"/>
+            tools:text="You have a idle time from all notifications of 1h:03m:12s"/>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
