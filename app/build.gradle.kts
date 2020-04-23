@@ -80,6 +80,8 @@ dependencies {
     implementation("de.halfbit:knot:1.8.1")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
     implementation(project(":authentication"))
     implementation(project(":store"))
     implementation(project(":name-generator"))

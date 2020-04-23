@@ -35,6 +35,7 @@ interface DependencyGraph {
     val getLongestNotificationIdled: GetLongestNotificationIdledUseCase
     val getAllNotificationsAverageTime: GetAllNotificationsAverageTimeUseCase
     val getCreationDate: GetCreationDateUseCase
+    val getAllApplicationIds: GetAllApplicationIdsUseCase
 }
 
 @Module
