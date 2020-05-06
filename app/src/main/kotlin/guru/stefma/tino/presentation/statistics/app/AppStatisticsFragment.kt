@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import guru.stefma.tino.R
 import guru.stefma.tino.presentation.statistics.app.single.createSingleAppStatisticsFragment
-import guru.stefma.tino.presentation.util.labelForApplicationId
+import guru.stefma.tino.presentation.util.toAppName
 import guru.stefma.tino.presentation.util.viewbinding.bind
 import kotlinx.android.synthetic.main.fragment_app_statistics.*
 
@@ -30,7 +30,7 @@ class AppStatisticsFragment : Fragment() {
         )
     }
 
-    private lateinit var appStatisticsAdapter: AppStatisticsAdapter
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,19 +43,34 @@ class AppStatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        appStatisticsAdapter = AppStatisticsAdapter(this)
-        viewPager.adapter = appStatisticsAdapter
-
         val viewModel = createAppStatisticsViewModel(uid)
         viewModel.bind()
     }
 
     private fun AppStatisticsViewModel.bind() {
-        bind(applicationIds) {
+        bind(appStatisticsInfo) {
+            tabLayoutMediator?.detach()
+            val appStatisticsAdapter = AppStatisticsAdapter(this@AppStatisticsFragment)
+            viewPager.adapter = appStatisticsAdapter
             appStatisticsAdapter.appInfo = it
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = requireContext().labelForApplicationId(it[position].second)
+
+            val appNames = it.map { it.appId.toAppName(requireContext()) }
+            TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = appNames[position] }.also {
+                tabLayoutMediator = it
             }.attach()
+        }
+        bind(filterItems) {
+            childFragmentManager.findFragmentById(R.id.bottomSheet).apply {
+                (this as AppStatisticsBottomSheetFragment)
+                val bottomSheetItems = it.map {
+                    BottomSheetItems(
+                        appName = it.appId.toAppName(requireContext()),
+                        checked = it.checked,
+                        onCheckedChanged = it.onCheckedChanged
+                    )
+                }
+                setItems(bottomSheetItems)
+            }
         }
     }
 
@@ -78,5 +93,3 @@ private class AppStatisticsAdapter(
         return createSingleAppStatisticsFragment(uid = uid, appId = appId)
     }
 }
-
-private typealias AppStatisticsInformation = Pair<String, String>

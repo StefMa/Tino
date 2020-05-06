@@ -8,6 +8,8 @@ import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.domain.usecase.GetAllApplicationIds
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsClass
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsUseCase
+import io.reactivex.Observable
+import kotlinx.coroutines.rx2.awaitFirst
 
 fun ViewModelStoreOwner.createAppStatisticsViewModel(uid: String): AppStatisticsViewModel =
     ViewModelProvider(this, appStatisticsViewModelFactory(uid)).get(AppStatisticsViewModel::class.java)
@@ -40,7 +42,16 @@ class AppStatisticsViewModel(
             reduce {
                 when (it) {
                     is Change.Loaded -> when (this) {
-                        State.Init -> State.Ready(it.appIds).only
+                        State.Init -> State.Ready(it.appIds.sorted()).only
+                        else -> unexpected(it)
+                    }
+                    is Change.Filter -> when (this) {
+                        is State.Ready -> {
+                            val appIds = appIds.toMutableList().apply {
+                                if (!it.checked) remove(it.appId) else add(it.appId)
+                            }
+                            copy(appIds.sorted()).only
+                        }
                         else -> unexpected(it)
                     }
                 }
@@ -55,9 +66,22 @@ class AppStatisticsViewModel(
         }
     }
 
-    val applicationIds = knot.state
+    val appStatisticsInfo: Observable<List<AppStatisticsInformation>> = knot.state
         .ofType(State.Ready::class.java)
-        .map { it.appIds.map { uid to it } }
+        .map { it.appIds.map { appId -> AppStatisticsInformation(uid, appId) } }
+
+    val filterItems = knot.state
+        .ofType(State.Ready::class.java)
+        .take(1)
+        .map {
+            val appIds = it.appIds
+            appIds.map { appId ->
+                val onFilterItemClick: (Boolean) -> Unit = { checked ->
+                    knot.change.accept(Change.Filter(appIds, appId, checked))
+                }
+                FilterItem(appId, true, onFilterItemClick)
+            }
+        }
 
     private sealed class State {
         object Init : State()
@@ -66,6 +90,18 @@ class AppStatisticsViewModel(
 
     private sealed class Change {
         data class Loaded(val appIds: List<String>) : Change()
+        data class Filter(val appIds: List<String>, val appId: String, val checked: Boolean) : Change()
     }
 
 }
+
+data class AppStatisticsInformation(
+    val uid: String,
+    val appId: String
+)
+
+data class FilterItem(
+    val appId: String,
+    val checked: Boolean,
+    val onCheckedChanged: (Boolean) -> Unit
+)
