@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/windowBackground">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="?android:attr/windowBackground">
 
     <TextView
         android:id="@+id/statisticsTitle"
@@ -18,7 +18,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/notificationCountCard"
@@ -39,7 +39,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You received 1000 notifications" />
+            tools:text="You received 1000 notifications"/>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="ou have a idle time from all notifications of 1h:03m:12s" />
+            tools:text="You have a idle time from all notifications of 1h:03m:12s"/>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -82,7 +82,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You received from WhatsApp the most notifications: 900" />
+            tools:text="You received from WhatsApp the most notifications: 900"/>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -103,20 +103,20 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="The longest notification idled for 120 seconds from Gmail" />
+            tools:text="The longest notification idled for 120 seconds from Gmail"/>
     </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/mostNotificationInTimeRange"
+    <Button
+        android:id="@+id/statisticsPerApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
         app:layout_constraintEnd_toEndOf="@id/longestNotificationIdleTimeFromAppCard"
-        app:layout_constraintStart_toStartOf="@id/mostNotificationFromAppCard"
         app:layout_constraintTop_toBottomOf="@id/mostNotificationFromAppCard"
-        tools:text="You receive the most notification between 10-11 AM"
-        tools:visibility="visible" />
+        android:text="@string/statistics_per_app"/>
 
     <TextView
         android:id="@+id/collectStatisticSince"
@@ -128,6 +128,6 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Counting since 03.01.1993" />
+        tools:text="Counting since 03.01.1993"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

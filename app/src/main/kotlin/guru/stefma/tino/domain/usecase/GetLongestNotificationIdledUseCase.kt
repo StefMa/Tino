@@ -9,11 +9,8 @@ class GetLongestNotificationIdledUseCase @Inject constructor(
 
     override fun invoke(param: Params): Single<Pair<String, Long>> {
         return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
-            .map {
-                it.map { it.appName to it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
-                    .maxBy { it.second }
-                    ?: "" to 0L
-            }
+            .map { it.map { it.appName to it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp } }
+            .map { it.maxBy { it.second } ?: "" to 0L }
     }
 
     class Params(val uid: String)

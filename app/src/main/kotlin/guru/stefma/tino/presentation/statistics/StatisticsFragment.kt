@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import guru.stefma.tino.R
+import guru.stefma.tino.presentation.statistics.app.AppStatisticsFragment
+import guru.stefma.tino.presentation.statistics.app.createAppStatisticsFragment
 import guru.stefma.tino.presentation.util.asFormattedTime
+import guru.stefma.tino.presentation.util.navigation.showFragment
 import guru.stefma.tino.presentation.util.viewbinding.bind
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.util.*
@@ -39,6 +42,10 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        statisticsPerApp.setOnClickListener {
+            showFragment(createAppStatisticsFragment(uid))
+        }
+
         val viewModel = createStatisticsViewModel(uid)
         viewModel.bind()
     }
@@ -64,7 +71,6 @@ class StatisticsFragment : Fragment() {
                 it.longestIdled.first
             )
             collectStatisticSince.text = Date(it.creationDate * 1000).toString()
-            //mostNotificationInTimeRange.text = "TODO"
         }
     }
 

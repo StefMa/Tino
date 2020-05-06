@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:cardBackgroundColor="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/notificationCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="You received 1000 notifications"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/notificationIdleTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="You have a idle time from all notifications of 900 seconds"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/longestNotificationIdleTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="The longest notification idled for 120 seconds"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/averageNotificationIdleTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="The average idle time is 5 seconds"/>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
