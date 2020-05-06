@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import guru.stefma.tino.R
 import guru.stefma.tino.presentation.util.asFormattedTime
 import guru.stefma.tino.presentation.util.viewbinding.bind
+import guru.stefma.tino.presentation.util.viewmodel.getViewModel
 import kotlinx.android.synthetic.main.fragment_single_app_statistics.*
 
 private const val EXTRA_UID = "uid"
@@ -52,7 +53,7 @@ class SingleAppStatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = createSingleAppStatisticsViewModel(uid, appId)
+        val viewModel = getViewModel<SingleAppStatisticsViewModelHolder>().get(uid to appId)
         viewModel.bind()
     }
 

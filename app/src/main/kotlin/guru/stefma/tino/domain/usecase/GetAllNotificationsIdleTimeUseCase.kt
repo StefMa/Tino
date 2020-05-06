@@ -3,9 +3,9 @@ package guru.stefma.tino.domain.usecase
 import io.reactivex.Single
 import javax.inject.Inject
 
-class GetAllNotificationIdleTimeUseCase @Inject constructor(
+class GetAllNotificationsIdleTimeUseCase @Inject constructor(
     val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetAllNotificationIdleTimeUseCase.Params, Single<Long>> {
+) : GetAllNotificationsIdleTime {
 
     override operator fun invoke(param: Params): Single<Long> {
         return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
@@ -18,6 +18,4 @@ class GetAllNotificationIdleTimeUseCase @Inject constructor(
     class Params(val uid: String)
 }
 
-typealias GetAllNotificationsIdleTime = ParamizedUseCase<GetAllNotificationIdleTimeUseCase.Params, Single<Long>>
-
-val GetAllNotificationsIdleTimeClass = ParamizedUseCase::class.java
+typealias GetAllNotificationsIdleTime = ParamizedUseCase<GetAllNotificationsIdleTimeUseCase.Params, Single<Long>>

@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetAppWithMostNotificationsUseCase @Inject constructor(
     private val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetAppWithMostNotificationsUseCase.Params, Single<Pair<String, Long>>> {
+) : GetAppWithMostNotifications {
 
     override operator fun invoke(param: Params): Single<Pair<String, Long>> {
         return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
@@ -23,6 +23,4 @@ class GetAppWithMostNotificationsUseCase @Inject constructor(
     class Params(val uid: String)
 }
 
-typealias GetAppWithMostNotifications = ParamizedUseCase<GetAppWithMostNotificationsUseCase.Params, Single<Pair<String, Long>>>
-
-val GetAppWithMostNotificationsClass = ParamizedUseCase::class.java
+typealias GetAppWithMostNotifications = ParamizedUseCase<GetAppWithMostNotificationsUseCase.Params, Single<Pair<@JvmSuppressWildcards String, @JvmSuppressWildcards Long>>>

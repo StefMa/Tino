@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetAllNotificationsUseCase @Inject constructor(
     private val store: Store
-) : ParamizedUseCase<GetAllNotificationsUseCase.Params, Single<List<Store.Data>>> {
+) : GetAllNotifications {
 
     override fun invoke(param: Params): Single<List<Store.Data>> {
         return rxSingle { store.getAll(param.uid) }
@@ -16,6 +16,4 @@ class GetAllNotificationsUseCase @Inject constructor(
     class Params(val uid: String)
 }
 
-typealias GetAllNotifications = ParamizedUseCase<GetAllNotificationsUseCase.Params, Single<List<Store.Data>>>
-
-val GetAllNotificationsClass = ParamizedUseCase::class.java
+typealias GetAllNotifications = ParamizedUseCase<GetAllNotificationsUseCase.Params, Single<List<@JvmSuppressWildcards Store.Data>>>

@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetLongestNotificationIdledUseCase @Inject constructor(
     private val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetLongestNotificationIdledUseCase.Params, Single<Pair<String, Long>>> {
+) : GetLongestNotificationIdled {
 
     override fun invoke(param: Params): Single<Pair<String, Long>> {
         return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
@@ -17,6 +17,4 @@ class GetLongestNotificationIdledUseCase @Inject constructor(
 
 }
 
-typealias GetLongestNotificationIdled = ParamizedUseCase<GetLongestNotificationIdledUseCase.Params, Single<Pair<String, Long>>>
-
-val GetLongestNotificationIdledClass = ParamizedUseCase::class.java
+typealias GetLongestNotificationIdled = ParamizedUseCase<GetLongestNotificationIdledUseCase.Params, Single<Pair<@JvmSuppressWildcards String, @JvmSuppressWildcards Long>>>

@@ -10,7 +10,7 @@ class GetStatisticsForApplicationIdUseCase @Inject constructor(
     private val getAllNotificationsIdleTimeForApplicationId: GetAllNotificationsIdleTimeForApplicationId,
     private val getLongestNotificationIdledForApplicationId: GetLongestNotificationIdledForApplicationId,
     private val getAllNotificationsAverageTimeForApplicationId: GetAllNotificationsAverageTimeForApplicationId
-) : ParamizedUseCase<GetStatisticsForApplicationIdUseCase.Params, Single<ApplicationStatistics>> {
+) : GetStatisticsForApplicationId {
 
     override fun invoke(param: Params): Single<ApplicationStatistics> {
         return Single.zip(
@@ -54,5 +54,3 @@ class GetStatisticsForApplicationIdUseCase @Inject constructor(
 }
 
 typealias GetStatisticsForApplicationId = ParamizedUseCase<GetStatisticsForApplicationIdUseCase.Params, Single<ApplicationStatistics>>
-
-val GetStatisticsForApplicationIdClass = ParamizedUseCase::class.java
