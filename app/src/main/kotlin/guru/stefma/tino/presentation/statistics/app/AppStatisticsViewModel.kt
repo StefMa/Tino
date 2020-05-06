@@ -9,7 +9,6 @@ import guru.stefma.tino.domain.usecase.GetAllApplicationIds
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsClass
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsUseCase
 import io.reactivex.Observable
-import kotlinx.coroutines.rx2.awaitFirst
 
 fun ViewModelStoreOwner.createAppStatisticsViewModel(uid: String): AppStatisticsViewModel =
     ViewModelProvider(this, appStatisticsViewModelFactory(uid)).get(AppStatisticsViewModel::class.java)
@@ -42,7 +41,7 @@ class AppStatisticsViewModel(
             reduce {
                 when (it) {
                     is Change.Loaded -> when (this) {
-                        State.Init -> State.Ready(it.appIds.sorted()).only
+                        State.Init -> State.Ready(it.appIds).only
                         else -> unexpected(it)
                     }
                     is Change.Filter -> when (this) {
@@ -50,7 +49,7 @@ class AppStatisticsViewModel(
                             val appIds = appIds.toMutableList().apply {
                                 if (!it.checked) remove(it.appId) else add(it.appId)
                             }
-                            copy(appIds.sorted()).only
+                            copy(appIds).only
                         }
                         else -> unexpected(it)
                     }

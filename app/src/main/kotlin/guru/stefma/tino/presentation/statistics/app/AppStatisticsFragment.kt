@@ -54,7 +54,7 @@ class AppStatisticsFragment : Fragment() {
             viewPager.adapter = appStatisticsAdapter
             appStatisticsAdapter.appInfo = it
 
-            val appNames = it.map { it.appId.toAppName(requireContext()) }
+            val appNames = it.map { it.appId.toAppName(requireContext()) }.sorted()
             TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = appNames[position] }.also {
                 tabLayoutMediator = it
             }.attach()
@@ -68,7 +68,7 @@ class AppStatisticsFragment : Fragment() {
                         checked = it.checked,
                         onCheckedChanged = it.onCheckedChanged
                     )
-                }
+                }.sortedBy { it.appName }
                 setItems(bottomSheetItems)
             }
         }
