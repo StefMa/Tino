@@ -20,11 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Keep all constructors for our ViewModel classes
--keepclassmembers class * extends androidx.lifecycle.ViewModel {
-    <init>(...);
-}
-
 # This is for Firebase Crashlytics
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
