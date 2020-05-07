@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import guru.stefma.tino.R
-import guru.stefma.tino.presentation.statistics.app.AppStatisticsFragment
 import guru.stefma.tino.presentation.statistics.app.createAppStatisticsFragment
 import guru.stefma.tino.presentation.util.asFormattedTime
 import guru.stefma.tino.presentation.util.navigation.showFragment

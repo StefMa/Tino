@@ -88,7 +88,7 @@ data class FilterItem(
 class AppStatisticsViewModelHolder @Inject constructor(
     private val getAllApplicationIds: GetAllApplicationIds
 ) : ViewModelHolder<String, AppStatisticsViewModel>() {
-    override fun get(params: String): AppStatisticsViewModel {
+    override fun create(params: String): AppStatisticsViewModel {
         return AppStatisticsViewModel(params, getAllApplicationIds)
     }
 }

@@ -2,8 +2,12 @@ package guru.stefma.tino.presentation.util.viewmodel
 
 import androidx.lifecycle.ViewModel
 
-//TODO: Test ProGuard and update Proguard file!!!
-
 abstract class ViewModelHolder<P, T : ViewModel> : ViewModel() {
-    abstract fun get(params: P): T
+    private var cachedViewModel: T? = null
+
+    fun get(params: P): T {
+        return cachedViewModel ?: create(params).also { cachedViewModel = it }
+    }
+
+    protected abstract fun create(params: P): T
 }

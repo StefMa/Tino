@@ -55,7 +55,7 @@ class SingleAppStatisticsViewModel(
 class SingleAppStatisticsViewModelHolder @Inject constructor(
     private val getStatisticsForApplicationId: GetStatisticsForApplicationId
 ) : ViewModelHolder<Pair<@JvmSuppressWildcards String, @JvmSuppressWildcards String>, SingleAppStatisticsViewModel>() {
-    override fun get(params: Pair<String, String>): SingleAppStatisticsViewModel {
+    override fun create(params: Pair<String, String>): SingleAppStatisticsViewModel {
         return SingleAppStatisticsViewModel(params.first, params.second, getStatisticsForApplicationId)
     }
 }

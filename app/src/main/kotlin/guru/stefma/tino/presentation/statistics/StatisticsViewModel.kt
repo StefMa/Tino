@@ -87,8 +87,7 @@ class StatisticsViewModelHolder @Inject constructor(
     private val getAppWithMostNotifications: GetAppWithMostNotifications,
     private val getCreationDate: GetCreationDate
 ) : ViewModelHolder<String, StatisticsViewModel>() {
-
-    override fun get(params: String): StatisticsViewModel {
+    override fun create(params: String): StatisticsViewModel {
         return StatisticsViewModel(
             params,
             getAllNotificationsCount,
