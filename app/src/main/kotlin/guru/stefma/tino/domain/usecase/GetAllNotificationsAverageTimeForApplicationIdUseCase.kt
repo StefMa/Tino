@@ -1,10 +1,11 @@
 package guru.stefma.tino.domain.usecase
 
 import io.reactivex.Single
+import javax.inject.Inject
 
-class GetAllNotificationsAverageTimeForApplicationIdUseCase(
+class GetAllNotificationsAverageTimeForApplicationIdUseCase @Inject constructor(
     private val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetAllNotificationsAverageTimeForApplicationIdUseCase.Params, Single<Long>> {
+) : GetAllNotificationsAverageTimeForApplicationId {
 
     override fun invoke(param: Params): Single<Long> {
         return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
@@ -26,5 +27,3 @@ class GetAllNotificationsAverageTimeForApplicationIdUseCase(
 }
 
 typealias GetAllNotificationsAverageTimeForApplicationId = ParamizedUseCase<GetAllNotificationsAverageTimeForApplicationIdUseCase.Params, Single<Long>>
-
-val GetAllNotificationsAverageTimeForApplicationIdClass = ParamizedUseCase::class.java

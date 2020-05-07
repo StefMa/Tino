@@ -11,6 +11,7 @@ import guru.stefma.tino.presentation.util.hideKeyboard
 import guru.stefma.tino.presentation.util.navigation.showFragment
 import guru.stefma.tino.presentation.util.showSnackbar
 import guru.stefma.tino.presentation.util.viewbinding.bind
+import guru.stefma.tino.presentation.util.viewmodel.getViewModel
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {
@@ -26,7 +27,7 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = createAccountViewModel()
+        val viewModel = getViewModel<AccountViewModel>()
         viewModel.bind()
         saveUserName.setOnClickListener {
             requireView().hideKeyboard()

@@ -15,6 +15,7 @@ import guru.stefma.tino.presentation.statistics.createStatisticsFragment
 import guru.stefma.tino.presentation.util.asFormattedTime
 import guru.stefma.tino.presentation.util.navigation.showFragment
 import guru.stefma.tino.presentation.util.viewbinding.bind
+import guru.stefma.tino.presentation.util.viewmodel.getViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -30,7 +31,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = createMainViewModel()
+        val viewModel = getViewModel<MainViewModel>()
         viewModel.bind()
 
         sumNotificationIdleTime.setOnLongClickListener {

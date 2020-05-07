@@ -1,36 +1,15 @@
 package guru.stefma.tino.presentation.account
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import de.halfbit.knot.knot
 import guru.stefma.tino.authentication.Authentication
-import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.presentation.util.Signaler
 import guru.stefma.tino.store.Store
 import io.reactivex.Observable
 import kotlinx.coroutines.rx2.rxSingle
+import javax.inject.Inject
 
-fun ViewModelStoreOwner.createAccountViewModel(): AccountViewModel =
-    ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
-
-private val accountViewModelFactory = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val authentication = dependencyGraph.authentication
-        val store = dependencyGraph.store
-        return modelClass
-            .getDeclaredConstructor(
-                Authentication::class.java,
-                Store::class.java
-            )
-            .newInstance(
-                authentication,
-                store
-            )
-    }
-}
-
-class AccountViewModel(
+class AccountViewModel @Inject constructor(
     private val authentication: Authentication,
     private val store: Store
 ) : ViewModel() {

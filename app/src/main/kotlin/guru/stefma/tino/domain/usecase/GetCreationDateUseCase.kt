@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetCreationDateUseCase @Inject constructor(
     private val store: Store
-) : ParamizedUseCase<GetCreationDateUseCase.Params, Single<Long>> {
+) : GetCreationDate {
 
     override operator fun invoke(param: Params): Single<Long> =
         rxSingle { store.getCreationDate(param.uid) }
@@ -16,5 +16,3 @@ class GetCreationDateUseCase @Inject constructor(
 }
 
 typealias GetCreationDate = ParamizedUseCase<GetCreationDateUseCase.Params, Single<Long>>
-
-val GetCreationDateClass = ParamizedUseCase::class.java

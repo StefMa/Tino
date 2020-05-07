@@ -8,6 +8,7 @@ import guru.stefma.tino.presentation.main.MainFragment
 import guru.stefma.tino.presentation.splashscreen.SplashscreenFragment
 import guru.stefma.tino.presentation.util.navigation.FragmentNavigator
 import guru.stefma.tino.presentation.util.viewbinding.bind
+import guru.stefma.tino.presentation.util.viewmodel.getViewModel
 
 class MainActivity : AppCompatActivity(), FragmentNavigator {
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity(), FragmentNavigator {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewModel = createMainViewModel()
+        val viewModel = getViewModel<MainViewModel>()
         viewModel.bind()
     }
 

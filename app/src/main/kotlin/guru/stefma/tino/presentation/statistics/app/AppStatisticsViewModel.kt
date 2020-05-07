@@ -1,36 +1,16 @@
 package guru.stefma.tino.presentation.statistics.app
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import de.halfbit.knot.knot
-import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.domain.usecase.GetAllApplicationIds
-import guru.stefma.tino.domain.usecase.GetAllApplicationIdsClass
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsUseCase
+import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.Observable
-
-fun ViewModelStoreOwner.createAppStatisticsViewModel(uid: String): AppStatisticsViewModel =
-    ViewModelProvider(this, appStatisticsViewModelFactory(uid)).get(AppStatisticsViewModel::class.java)
-
-private fun appStatisticsViewModelFactory(uid: String) = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val allApplicationIds = dependencyGraph.getAllApplicationIds
-        return modelClass
-            .getDeclaredConstructor(
-                String::class.java,
-                GetAllApplicationIdsClass
-            )
-            .newInstance(
-                uid,
-                allApplicationIds
-            )
-    }
-}
+import javax.inject.Inject
 
 class AppStatisticsViewModel(
     uid: String,
-    getStoredApplicationIds: GetAllApplicationIds
+    getAllApplicationIds: GetAllApplicationIds
 ) : ViewModel() {
 
     private val knot = knot<State, Change, Unit> {
@@ -58,7 +38,7 @@ class AppStatisticsViewModel(
         }
         events {
             source {
-                getStoredApplicationIds.invoke(GetAllApplicationIdsUseCase.Params(uid))
+                getAllApplicationIds.invoke(GetAllApplicationIdsUseCase.Params(uid))
                     .map<Change> { Change.Loaded(it) }
                     .toObservable()
             }
@@ -104,3 +84,11 @@ data class FilterItem(
     val checked: Boolean,
     val onCheckedChanged: (Boolean) -> Unit
 )
+
+class AppStatisticsViewModelHolder @Inject constructor(
+    private val getAllApplicationIds: GetAllApplicationIds
+) : ViewModelHolder<String, AppStatisticsViewModel>() {
+    override fun create(params: String): AppStatisticsViewModel {
+        return AppStatisticsViewModel(params, getAllApplicationIds)
+    }
+}

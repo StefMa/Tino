@@ -1,43 +1,12 @@
 package guru.stefma.tino.presentation.statistics
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import de.halfbit.knot.knot
-import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.domain.usecase.*
+import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.Observable
 import io.reactivex.functions.Function5
-
-fun ViewModelStoreOwner.createStatisticsViewModel(uid: String): StatisticsViewModel =
-    ViewModelProvider(this, statisticsViewModelFactory(uid)).get(StatisticsViewModel::class.java)
-
-private fun statisticsViewModelFactory(uid: String) = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val allNotificationsCount = dependencyGraph.getAllNotificationsCount
-        val allNotificationIdleTime = dependencyGraph.getAllNotificationIdleTime
-        val longestNotificationIdled = dependencyGraph.getLongestNotificationIdled
-        val appWithMostNotifications = dependencyGraph.getAppWithMostNotifications
-        val getCreationDate = dependencyGraph.getCreationDate
-        return modelClass
-            .getDeclaredConstructor(
-                String::class.java,
-                GetAllNotificationsCountClass,
-                GetAllNotificationsIdleTimeClass,
-                GetLongestNotificationIdledClass,
-                GetAppWithMostNotificationsClass,
-                GetCreationDateClass
-            )
-            .newInstance(
-                uid,
-                allNotificationsCount,
-                allNotificationIdleTime,
-                longestNotificationIdled,
-                appWithMostNotifications,
-                getCreationDate
-            )
-    }
-}
+import javax.inject.Inject
 
 class StatisticsViewModel(
     uid: String,
@@ -69,7 +38,7 @@ class StatisticsViewModel(
                         GetAllNotificationsCountUseCase.Params(uid)
                     ).toObservable(),
                     getAllNotificationsIdleTime(
-                        GetAllNotificationIdleTimeUseCase.Params(uid)
+                        GetAllNotificationsIdleTimeUseCase.Params(uid)
                     ).toObservable(),
                     getLongestNotificationIdled(
                         GetLongestNotificationIdledUseCase.Params(uid)
@@ -109,4 +78,23 @@ class StatisticsViewModel(
         data class Loaded(val data: Data) : Change()
     }
 
+}
+
+class StatisticsViewModelHolder @Inject constructor(
+    private val getAllNotificationsCount: GetAllNotificationsCount,
+    private val getAllNotificationsIdleTime: GetAllNotificationsIdleTime,
+    private val getLongestNotificationIdled: GetLongestNotificationIdled,
+    private val getAppWithMostNotifications: GetAppWithMostNotifications,
+    private val getCreationDate: GetCreationDate
+) : ViewModelHolder<String, StatisticsViewModel>() {
+    override fun create(params: String): StatisticsViewModel {
+        return StatisticsViewModel(
+            params,
+            getAllNotificationsCount,
+            getAllNotificationsIdleTime,
+            getLongestNotificationIdled,
+            getAppWithMostNotifications,
+            getCreationDate
+        )
+    }
 }

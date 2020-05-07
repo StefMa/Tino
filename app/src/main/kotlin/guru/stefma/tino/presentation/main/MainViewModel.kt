@@ -1,35 +1,13 @@
 package guru.stefma.tino.presentation.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import de.halfbit.knot.knot
 import guru.stefma.tino.authentication.Authentication
-import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTime
-import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTimeClass
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTimeUseCase
+import javax.inject.Inject
 
-fun ViewModelStoreOwner.createMainViewModel(): MainViewModel =
-    ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
-
-private val mainViewModelFactory = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val authentication = dependencyGraph.authentication
-        val allNotificationsAverageTime = dependencyGraph.getAllNotificationsAverageTime
-        return modelClass
-            .getDeclaredConstructor(
-                Authentication::class.java,
-                GetAllNotificationsAverageTimeClass
-            )
-            .newInstance(
-                authentication,
-                allNotificationsAverageTime
-            )
-    }
-}
-
-class MainViewModel(
+class MainViewModel @Inject constructor(
     authentication: Authentication,
     getAllNotificationsAverageTime: GetAllNotificationsAverageTime
 ) : ViewModel() {

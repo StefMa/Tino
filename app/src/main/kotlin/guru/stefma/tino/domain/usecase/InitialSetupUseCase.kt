@@ -10,7 +10,7 @@ class InitialSetupUseCase @Inject constructor(
     private val authentication: Authentication,
     private val store: Store,
     private val generateUserNameAndStore: GenerateUserNameAndStore
-) : UseCase<Single<Boolean>> {
+) : InitialSetup {
 
     override fun invoke(): Single<Boolean> =
         rxSingle { authentication.createAnonymousUser() }
@@ -45,5 +45,3 @@ class InitialSetupUseCase @Inject constructor(
 }
 
 typealias InitialSetup = UseCase<Single<Boolean>>
-
-val InitialSetupClass = UseCase::class.java

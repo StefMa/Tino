@@ -1,35 +1,12 @@
 package guru.stefma.tino.presentation.statistics.app.single
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import de.halfbit.knot.knot
-import guru.stefma.tino.dependencyGraph
 import guru.stefma.tino.domain.model.ApplicationStatistics
 import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationId
-import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationIdClass
 import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationIdUseCase
-
-fun ViewModelStoreOwner.createSingleAppStatisticsViewModel(uid: String, appId: String): SingleAppStatisticsViewModel =
-    ViewModelProvider(this, singleAppStatisticsViewModelFactory(uid, appId))
-        .get(SingleAppStatisticsViewModel::class.java)
-
-private fun singleAppStatisticsViewModelFactory(uid: String, appId: String) = object : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val statisticsForApplicationId = dependencyGraph.getStatisticsForApplicationId
-        return modelClass
-            .getDeclaredConstructor(
-                String::class.java,
-                String::class.java,
-                GetStatisticsForApplicationIdClass
-            )
-            .newInstance(
-                uid,
-                appId,
-                statisticsForApplicationId
-            )
-    }
-}
+import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
+import javax.inject.Inject
 
 class SingleAppStatisticsViewModel(
     uid: String,
@@ -73,4 +50,12 @@ class SingleAppStatisticsViewModel(
         data class Loaded(val statistics: ApplicationStatistics) : Change()
     }
 
+}
+
+class SingleAppStatisticsViewModelHolder @Inject constructor(
+    private val getStatisticsForApplicationId: GetStatisticsForApplicationId
+) : ViewModelHolder<Pair<@JvmSuppressWildcards String, @JvmSuppressWildcards String>, SingleAppStatisticsViewModel>() {
+    override fun create(params: Pair<String, String>): SingleAppStatisticsViewModel {
+        return SingleAppStatisticsViewModel(params.first, params.second, getStatisticsForApplicationId)
+    }
 }
