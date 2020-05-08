@@ -62,11 +62,10 @@ class AppStatisticsViewModel(
         .ofType(State.Ready::class.java)
         .take(1)
         .map {
-            val appIds = it.appIds
-            appIds
+            it.appIds
                 .map { appId ->
                     val onFilterItemClick: (Boolean) -> Unit = { checked ->
-                        knot.change.accept(Change.Filter(appIds, appId, checked))
+                        knot.change.accept(Change.Filter(appId, checked))
                     }
                     val appName = appIdToAppNameConverter(appId)
                     FilterItem(appName, true, onFilterItemClick)
@@ -81,7 +80,7 @@ class AppStatisticsViewModel(
 
     private sealed class Change {
         data class Loaded(val appIds: List<String>) : Change()
-        data class Filter(val appIds: List<String>, val appId: String, val checked: Boolean) : Change()
+        data class Filter(val appId: String, val checked: Boolean) : Change()
     }
 
 }
