@@ -14,6 +14,8 @@ import guru.stefma.tino.presentation.account.AccountViewModel
 import guru.stefma.tino.presentation.statistics.StatisticsViewModelHolder
 import guru.stefma.tino.presentation.statistics.app.AppStatisticsViewModelHolder
 import guru.stefma.tino.presentation.statistics.app.single.SingleAppStatisticsViewModelHolder
+import guru.stefma.tino.presentation.util.AppIdToAppNameConverter
+import guru.stefma.tino.presentation.util.DefaultAppIdToAppNameConverter
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelFactory
 import guru.stefma.tino.store.Store
 import javax.inject.Singleton
@@ -28,13 +30,13 @@ import kotlin.reflect.KClass
         AuthenticationModule::class,
         DataModule::class,
         UseCaseModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        PresentationUtilsModule::class
     ]
 )
 interface DependencyGraph {
     val store: Store
     val authentication: Authentication
-
     val viewModelFactory: ViewModelProvider.Factory
 }
 
@@ -45,7 +47,11 @@ class GeneralModule(
 
     @Provides
     @Singleton
-    fun provideStoreLocal(): Boolean = application.resources.getBoolean(R.bool.storeLocal)
+    fun provideApplication(): Application = application
+
+    @Provides
+    @Singleton
+    fun provideStoreLocal(application: Application): Boolean = application.resources.getBoolean(R.bool.storeLocal)
 
     @Provides
     @Singleton
@@ -163,6 +169,13 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SingleAppStatisticsViewModelHolder::class)
     abstract fun provideSingleAppStatisticsViewModelHolder(impl: SingleAppStatisticsViewModelHolder): ViewModel
+}
+
+@Module
+abstract class PresentationUtilsModule {
+
+    @Binds
+    abstract fun provideAppIdToAppNameConverter(impl: DefaultAppIdToAppNameConverter): AppIdToAppNameConverter
 }
 
 @Target(AnnotationTarget.FUNCTION)

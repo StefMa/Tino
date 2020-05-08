@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import guru.stefma.tino.R
 import guru.stefma.tino.presentation.statistics.app.single.createSingleAppStatisticsFragment
-import guru.stefma.tino.presentation.util.toAppName
 import guru.stefma.tino.presentation.util.viewbinding.bind
 import guru.stefma.tino.presentation.util.viewmodel.getViewModel
 import kotlinx.android.synthetic.main.fragment_app_statistics.*
@@ -51,25 +50,26 @@ class AppStatisticsFragment : Fragment() {
     private fun AppStatisticsViewModel.bind() {
         bind(appStatisticsInfo) {
             tabLayoutMediator?.detach()
-            val appStatisticsAdapter = AppStatisticsAdapter(this@AppStatisticsFragment)
-            viewPager.adapter = appStatisticsAdapter
-            appStatisticsAdapter.appInfo = it
 
-            val appNames = it.map { it.appId.toAppName(requireContext()) }.sorted()
-            TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = appNames[position] }.also {
-                tabLayoutMediator = it
-            }.attach()
+            with(AppStatisticsAdapter(this@AppStatisticsFragment)) {
+                viewPager.adapter = this
+                appInfo = it
+            }
+
+            TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = it[position].appName }
+                .also { tabLayoutMediator = it }
+                .attach()
         }
         bind(filterItems) {
             childFragmentManager.findFragmentById(R.id.bottomSheet).apply {
                 (this as AppStatisticsBottomSheetFragment)
                 val bottomSheetItems = it.map {
                     BottomSheetItems(
-                        appName = it.appId.toAppName(requireContext()),
+                        appName = it.appName,
                         checked = it.checked,
                         onCheckedChanged = it.onCheckedChanged
                     )
-                }.sortedBy { it.appName }
+                }
                 setItems(bottomSheetItems)
             }
         }
@@ -90,7 +90,10 @@ private class AppStatisticsAdapter(
     override fun getItemCount(): Int = appInfo.size
 
     override fun createFragment(position: Int): Fragment {
-        val (uid, appId) = appInfo[position]
-        return createSingleAppStatisticsFragment(uid = uid, appId = appId)
+        val appInfo = appInfo[position]
+        return createSingleAppStatisticsFragment(
+            uid = appInfo.uid,
+            appId = appInfo.appId
+        )
     }
 }

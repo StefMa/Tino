@@ -4,13 +4,15 @@ import androidx.lifecycle.ViewModel
 import de.halfbit.knot.knot
 import guru.stefma.tino.domain.usecase.GetAllApplicationIds
 import guru.stefma.tino.domain.usecase.GetAllApplicationIdsUseCase
+import guru.stefma.tino.presentation.util.AppIdToAppNameConverter
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class AppStatisticsViewModel(
     uid: String,
-    getAllApplicationIds: GetAllApplicationIds
+    getAllApplicationIds: GetAllApplicationIds,
+    appIdToAppNameConverter: AppIdToAppNameConverter
 ) : ViewModel() {
 
     private val knot = knot<State, Change, Unit> {
@@ -47,19 +49,29 @@ class AppStatisticsViewModel(
 
     val appStatisticsInfo: Observable<List<AppStatisticsInformation>> = knot.state
         .ofType(State.Ready::class.java)
-        .map { it.appIds.map { appId -> AppStatisticsInformation(uid, appId) } }
+        .map {
+            it.appIds
+                .map { appId ->
+                    val appName = appIdToAppNameConverter(appId)
+                    AppStatisticsInformation(uid, appId, appName)
+                }
+                .sortedBy { it.appName }
+        }
 
     val filterItems = knot.state
         .ofType(State.Ready::class.java)
         .take(1)
         .map {
             val appIds = it.appIds
-            appIds.map { appId ->
-                val onFilterItemClick: (Boolean) -> Unit = { checked ->
-                    knot.change.accept(Change.Filter(appIds, appId, checked))
+            appIds
+                .map { appId ->
+                    val onFilterItemClick: (Boolean) -> Unit = { checked ->
+                        knot.change.accept(Change.Filter(appIds, appId, checked))
+                    }
+                    val appName = appIdToAppNameConverter(appId)
+                    FilterItem(appName, true, onFilterItemClick)
                 }
-                FilterItem(appId, true, onFilterItemClick)
-            }
+                .sortedBy { it.appName }
         }
 
     private sealed class State {
@@ -76,19 +88,25 @@ class AppStatisticsViewModel(
 
 data class AppStatisticsInformation(
     val uid: String,
-    val appId: String
+    val appId: String,
+    val appName: String
 )
 
 data class FilterItem(
-    val appId: String,
+    val appName: String,
     val checked: Boolean,
     val onCheckedChanged: (Boolean) -> Unit
 )
 
 class AppStatisticsViewModelHolder @Inject constructor(
-    private val getAllApplicationIds: GetAllApplicationIds
+    private val getAllApplicationIds: GetAllApplicationIds,
+    private val appIdToAppNameConverter: AppIdToAppNameConverter
 ) : ViewModelHolder<String, AppStatisticsViewModel>() {
     override fun create(params: String): AppStatisticsViewModel {
-        return AppStatisticsViewModel(params, getAllApplicationIds)
+        return AppStatisticsViewModel(
+            params,
+            getAllApplicationIds,
+            appIdToAppNameConverter
+        )
     }
 }
