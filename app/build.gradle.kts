@@ -86,7 +86,7 @@ dependencies {
     implementation(project(":store"))
     implementation(project(":name-generator"))
 
-    releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0-beta01")
+    releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
