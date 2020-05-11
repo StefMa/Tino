@@ -24,7 +24,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
 
-    implementation("com.google.firebase:firebase-firestore:21.4.0")
+    implementation("com.google.firebase:firebase-firestore:21.4.3")
 
     val roomVersion = "2.2.3"
     implementation("androidx.room:room-runtime:$roomVersion")
