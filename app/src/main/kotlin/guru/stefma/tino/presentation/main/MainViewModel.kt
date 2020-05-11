@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
             }
         }
         events {
-            source {
+            coldSource {
                 getAllNotificationsAverageTime(
                     GetAllNotificationsAverageTimeUseCase.Params(authentication.uid)
                 )
