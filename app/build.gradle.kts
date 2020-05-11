@@ -88,9 +88,9 @@ dependencies {
 
     releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0-beta01")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.3.6")
 
     implementation("com.google.dagger:dagger:2.26")
     kapt("com.google.dagger:dagger-compiler:2.26")
