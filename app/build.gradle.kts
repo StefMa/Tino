@@ -92,8 +92,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.3.6")
 
-    implementation("com.google.dagger:dagger:2.26")
-    kapt("com.google.dagger:dagger-compiler:2.26")
+    implementation("com.google.dagger:dagger:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.27")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
     testImplementation("com.google.truth:truth:1.0.1")
