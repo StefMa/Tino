@@ -1,6 +1,6 @@
 package guru.stefma.tino.domain.usecase
 
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class GetAllNotificationsCountUseCase @Inject constructor(

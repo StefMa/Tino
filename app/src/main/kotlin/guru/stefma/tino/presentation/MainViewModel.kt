@@ -1,10 +1,10 @@
 package guru.stefma.tino.presentation
 
 import androidx.lifecycle.ViewModel
-import de.halfbit.knot.knot
+import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.InitialSetup
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.BiFunction
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
