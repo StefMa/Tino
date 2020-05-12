@@ -22,8 +22,8 @@ android {
         applicationId = "guru.stefma.tino"
         minSdkVersion(23)
         targetSdkVersion(29)
-        versionCode = 3
-        versionName = "1.1.1"
+        versionCode = 4
+        versionName = "1.1.2"
     }
     signingConfigs {
         named("debug") {
