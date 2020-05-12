@@ -1,12 +1,12 @@
 package guru.stefma.tino.presentation.account
 
 import androidx.lifecycle.ViewModel
-import de.halfbit.knot.knot
+import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.presentation.util.Signaler
 import guru.stefma.tino.store.Store
-import io.reactivex.Observable
-import kotlinx.coroutines.rx2.rxSingle
+import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(

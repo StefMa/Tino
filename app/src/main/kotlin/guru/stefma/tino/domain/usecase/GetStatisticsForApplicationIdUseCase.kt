@@ -1,8 +1,8 @@
 package guru.stefma.tino.domain.usecase
 
 import guru.stefma.tino.domain.model.ApplicationStatistics
-import io.reactivex.Single
-import io.reactivex.functions.Function4
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.functions.Function4
 import javax.inject.Inject
 
 class GetStatisticsForApplicationIdUseCase @Inject constructor(

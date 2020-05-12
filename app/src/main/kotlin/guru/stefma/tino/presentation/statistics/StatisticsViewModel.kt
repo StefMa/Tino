@@ -1,11 +1,11 @@
 package guru.stefma.tino.presentation.statistics
 
 import androidx.lifecycle.ViewModel
-import de.halfbit.knot.knot
+import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.*
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
-import io.reactivex.Observable
-import io.reactivex.functions.Function5
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.Function5
 import javax.inject.Inject
 
 class StatisticsViewModel(

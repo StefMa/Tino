@@ -1,7 +1,7 @@
 package guru.stefma.tino.presentation.main
 
 import androidx.lifecycle.ViewModel
-import de.halfbit.knot.knot
+import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTime
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTimeUseCase

@@ -77,8 +77,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     kapt("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
 
-    implementation("de.halfbit:knot:1.8.1")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("de.halfbit:knot3:3.1.1")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
@@ -86,14 +86,14 @@ dependencies {
     implementation(project(":store"))
     implementation(project(":name-generator"))
 
-    releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0-beta01")
+    releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.3.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.3.6")
 
-    implementation("com.google.dagger:dagger:2.26")
-    kapt("com.google.dagger:dagger-compiler:2.26")
+    implementation("com.google.dagger:dagger:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.27")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
     testImplementation("com.google.truth:truth:1.0.1")

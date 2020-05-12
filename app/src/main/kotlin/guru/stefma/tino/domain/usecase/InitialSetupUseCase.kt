@@ -2,8 +2,8 @@ package guru.stefma.tino.domain.usecase
 
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.store.Store
-import io.reactivex.Single
-import kotlinx.coroutines.rx2.rxSingle
+import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class InitialSetupUseCase @Inject constructor(

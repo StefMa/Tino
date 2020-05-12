@@ -23,5 +23,5 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
 
-    implementation("com.google.firebase:firebase-auth:19.2.0")
+    implementation("com.google.firebase:firebase-auth:19.3.1")
 }

@@ -1,7 +1,7 @@
 package guru.stefma.tino.presentation.statistics.app.single
 
 import androidx.lifecycle.ViewModel
-import de.halfbit.knot.knot
+import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.model.ApplicationStatistics
 import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationId
 import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationIdUseCase
