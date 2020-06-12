@@ -93,7 +93,8 @@ private class AppStatisticsAdapter(
         val appInfo = appInfo[position]
         return createSingleAppStatisticsFragment(
             uid = appInfo.uid,
-            appId = appInfo.appId
+            appId = appInfo.appId,
+            appName = appInfo.appName
         )
     }
 }

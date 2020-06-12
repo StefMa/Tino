@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:paddingVertical="16dp"
-    android:layout_height="match_parent">
+    android:paddingVertical="16dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:id="@+id/notificationCountCard"
+        android:layout_width="0dp"
         android:layout_height="80dp"
-        app:cardBackgroundColor="@color/colorAccent">
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/notificationCount"
@@ -22,14 +26,17 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You received 1000 notifications"/>
+            tools:text="You received 1000 notifications" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/notificationIdleTimeCard"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/colorAccent">
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
+        app:layout_constraintTop_toBottomOf="@id/notificationCountCard">
 
         <TextView
             android:id="@+id/notificationIdleTime"
@@ -40,14 +47,17 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You have a idle time from all notifications of 900 seconds"/>
+            tools:text="You have a idle time from all notifications of 900 seconds" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/longestNotificationIdleTimeCard"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/colorAccent">
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@id/notificationIdleTimeCard"
+        app:layout_constraintTop_toBottomOf="@id/notificationIdleTimeCard">
 
         <TextView
             android:id="@+id/longestNotificationIdleTime"
@@ -58,14 +68,17 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="The longest notification idled for 120 seconds"/>
+            tools:text="The longest notification idled for 120 seconds" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/averageNotificationIdleTimeCard"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/colorAccent">
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@id/longestNotificationIdleTimeCard"
+        app:layout_constraintTop_toBottomOf="@id/longestNotificationIdleTimeCard">
 
         <TextView
             android:id="@+id/averageNotificationIdleTime"
@@ -76,7 +89,30 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="The average idle time is 5 seconds"/>
+            tools:text="The average idle time is 5 seconds" />
     </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/share"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@id/averageNotificationIdleTimeCard"
+        app:layout_constraintTop_toBottomOf="@id/averageNotificationIdleTimeCard"
+        app:srcCompat="@drawable/ic_share"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/shareableView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/averageNotificationIdleTimeCard"
+        app:layout_constraintEnd_toEndOf="@id/notificationCountCard"
+        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
+        app:layout_constraintTop_toTopOf="@id/notificationCountCard" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

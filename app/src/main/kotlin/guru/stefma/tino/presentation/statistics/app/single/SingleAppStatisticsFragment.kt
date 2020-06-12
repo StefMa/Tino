@@ -10,20 +10,24 @@ import guru.stefma.tino.R
 import guru.stefma.tino.presentation.util.asFormattedTime
 import guru.stefma.tino.presentation.util.viewbinding.bind
 import guru.stefma.tino.presentation.util.viewmodel.getViewModel
+import guru.stefma.tino.screenshot.sharer.shareScreenshotFromView
 import kotlinx.android.synthetic.main.fragment_single_app_statistics.*
 
 private const val EXTRA_UID = "uid"
 private const val EXTRA_APP_ID = "appId"
+private const val EXTRA_APP_NAME = "appName"
 private typealias ApplicationId = String
 
 fun createSingleAppStatisticsFragment(
     uid: String,
-    appId: ApplicationId
+    appId: ApplicationId,
+    appName: String
 ): SingleAppStatisticsFragment =
     SingleAppStatisticsFragment().apply {
         arguments = Bundle().apply {
             putString(EXTRA_UID, uid)
             putString(EXTRA_APP_ID, appId)
+            putString(EXTRA_APP_NAME, appName)
         }
     }
 
@@ -41,6 +45,12 @@ class SingleAppStatisticsFragment : Fragment() {
         )
     }
 
+    private val appName: ApplicationId by lazy {
+        arguments?.getString(EXTRA_APP_NAME) ?: throw IllegalAccessException(
+            "You have to create an instance of the SingleAppStatisticsFragment via 'createSingleAppStatisticsFragment'"
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +62,10 @@ class SingleAppStatisticsFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        share.setOnClickListener {
+            shareScreenshotFromView(shareableView, requireActivity().window, appName)
+        }
 
         val viewModel = getViewModel<SingleAppStatisticsViewModelHolder>().get(uid to appId)
         viewModel.bind()

@@ -11,11 +11,11 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-fun shareScreenshotFromView(view: View, window: Window) {
+fun shareScreenshotFromView(view: View, window: Window, shareText: String? = null) {
     ScreenshotCreator().create(view, window) {
         saveBitmap(window.context, it) { imageFile ->
-            imageFile?.let {
-                shareImage(window.context, it)
+            imageFile?.let { image ->
+                shareImage(window.context, image, shareText)
             }
         }
     }
@@ -34,11 +34,11 @@ private fun saveBitmap(context: Context, bitmap: Bitmap, block: (File?) -> Unit)
         block(null)
     }
 
-private fun shareImage(context: Context, imaageFile: File) {
+private fun shareImage(context: Context, imageFile: File, shareText: String?) {
     val contentUri = FileProvider.getUriForFile(
         context,
         "${context.packageName}.screenshot.sharer.fileprovider",
-        imaageFile
+        imageFile
     )
 
     if (contentUri != null) {
@@ -47,6 +47,7 @@ private fun shareImage(context: Context, imaageFile: File) {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         shareIntent.setDataAndType(contentUri, context.contentResolver.getType(contentUri))
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+        shareText?.let { shareIntent.putExtra(Intent.EXTRA_TEXT, it) }
         ContextCompat.startActivity(
             context,
             Intent.createChooser(
