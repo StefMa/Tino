@@ -5,6 +5,7 @@ import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.InitialSetup
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.BiFunction
+import kotlinx.coroutines.rx3.rxObservable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class MainViewModel @Inject constructor(
                 this
                     .flatMap {
                         Observable.combineLatest(
-                            initialSetup().toObservable(),
+                            rxObservable { send(initialSetup()) },
                             Observable.just("").delay(1500, TimeUnit.MILLISECONDS),
                             BiFunction<Boolean, String, Boolean> { initSetupSuccess, _ -> initSetupSuccess }
                         )

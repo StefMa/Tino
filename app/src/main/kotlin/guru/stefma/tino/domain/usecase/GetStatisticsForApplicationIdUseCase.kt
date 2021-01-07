@@ -1,9 +1,11 @@
 package guru.stefma.tino.domain.usecase
 
 import guru.stefma.tino.domain.model.ApplicationStatistics
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.functions.Function4
 import javax.inject.Inject
+
+interface GetStatisticsForApplicationId {
+    suspend operator fun invoke(uid: String, appId: String): ApplicationStatistics
+}
 
 class GetStatisticsForApplicationIdUseCase @Inject constructor(
     private val getAllNotificationsCountForApplicationId: GetAllNotificationsCountForApplicationId,
@@ -12,45 +14,23 @@ class GetStatisticsForApplicationIdUseCase @Inject constructor(
     private val getAllNotificationsAverageTimeForApplicationId: GetAllNotificationsAverageTimeForApplicationId
 ) : GetStatisticsForApplicationId {
 
-    override fun invoke(param: Params): Single<ApplicationStatistics> {
-        return Single.zip(
-            getAllNotificationsCountForApplicationId(
-                GetAllNotificationsCountForApplicationIdUseCase.Params(
-                    param.uid,
-                    param.appId
-                )
-            ),
-            getAllNotificationsIdleTimeForApplicationId(
-                GetAllNotificationsIdleTimeForApplicationIdUseCase.Params(
-                    param.uid,
-                    param.appId
-                )
-            ),
-            getLongestNotificationIdledForApplicationId(
-                GetLongestNotificationIdledForApplicationIdUseCase.Params(
-                    param.uid,
-                    param.appId
-                )
-            ),
-            getAllNotificationsAverageTimeForApplicationId(
-                GetAllNotificationsAverageTimeForApplicationIdUseCase.Params(
-                    param.uid,
-                    param.appId
-                )
-            ),
-            Function4<Int, Long, Long, Long, ApplicationStatistics> { count, allIdleTime, longestIdleTime, averageTime ->
-                ApplicationStatistics(
-                    notificationCount = count,
-                    allNotificationsIdleTime = allIdleTime,
-                    longestNotificationIdleTime = longestIdleTime,
-                    allNotificationsAverageTime = averageTime
-                )
-            }
+    override suspend fun invoke(uid: String, appId: String): ApplicationStatistics {
+
+
+        val allNotificationsCountForApplicationId =
+            getAllNotificationsCountForApplicationId(uid, appId)
+        val allNotificationsIdleTimeForApplicationId =
+            getAllNotificationsIdleTimeForApplicationId(uid, appId)
+        val longestNotificationIdledForApplicationId =
+            getLongestNotificationIdledForApplicationId(uid, appId)
+        val allNotificationsAverageTimeForApplicationId =
+            getAllNotificationsAverageTimeForApplicationId(uid, appId)
+        return ApplicationStatistics(
+            allNotificationsCountForApplicationId,
+            allNotificationsIdleTimeForApplicationId,
+            longestNotificationIdledForApplicationId,
+            allNotificationsAverageTimeForApplicationId
         )
     }
 
-    class Params(val uid: String, val appId: String)
-
 }
-
-typealias GetStatisticsForApplicationId = ParamizedUseCase<GetStatisticsForApplicationIdUseCase.Params, Single<ApplicationStatistics>>

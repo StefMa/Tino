@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.*
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.functions.Function5
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class StatisticsViewModel(
@@ -33,26 +34,16 @@ class StatisticsViewModel(
         }
         events {
             source {
-                Observable.combineLatest(
-                    getAllNotificationsCount(
-                        GetAllNotificationsCountUseCase.Params(uid)
-                    ).toObservable(),
-                    getAllNotificationsIdleTime(
-                        GetAllNotificationsIdleTimeUseCase.Params(uid)
-                    ).toObservable(),
-                    getLongestNotificationIdled(
-                        GetLongestNotificationIdledUseCase.Params(uid)
-                    ).toObservable(),
-                    getAppWithMostNotifications(
-                        GetAppWithMostNotificationsUseCase.Params(uid)
-                    ).toObservable(),
-                    getCreationDate(
-                        GetCreationDateUseCase.Params(uid)
-                    ).toObservable(),
-                    Function5<Int, Long, Pair<String, Long>, Pair<String, Long>, Long, Change.Loaded> { t1, t2, t3, t4, t5 ->
+                Single.zip(
+                    rxSingle { getAllNotificationsCount(uid) },
+                    rxSingle { getAllNotificationsIdleTime(uid) },
+                    rxSingle { getLongestNotificationIdled(uid) },
+                    rxSingle { getAppWithMostNotifications(uid) },
+                    rxSingle { getCreationDate(uid) },
+                    Function5<Int, Long, Pair<String, Long>, Pair<String, Long>, Long, Change> { t1, t2, t3, t4, t5 ->
                         Change.Loaded(Data(t1, t2, t3, t4, t5))
                     }
-                )
+                ).toObservable()
             }
         }
     }

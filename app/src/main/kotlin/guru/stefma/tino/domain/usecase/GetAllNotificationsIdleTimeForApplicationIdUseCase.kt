@@ -1,24 +1,20 @@
 package guru.stefma.tino.domain.usecase
 
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+
+interface GetAllNotificationsIdleTimeForApplicationId {
+    suspend operator fun invoke(uid: String, appId: String): Long
+}
 
 class GetAllNotificationsIdleTimeForApplicationIdUseCase @Inject constructor(
     val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetAllNotificationsIdleTimeForApplicationIdUseCase.Params, Single<Long>> {
+) : GetAllNotificationsIdleTimeForApplicationId {
 
-    override operator fun invoke(param: Params): Single<Long> {
-        return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
-            .map { it.filter { it.appName == param.appId } }
-            .map { notifications ->
-                notifications.map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
-            }
-            .map { it.sum() }
+    override suspend operator fun invoke(uid: String, appId: String): Long {
+        return getAllNotifications(uid)
+            .filter { it.appName == appId }
+            .map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
+            .sum()
     }
 
-    class Params(val uid: String, val appId: String)
 }
-
-typealias GetAllNotificationsIdleTimeForApplicationId = ParamizedUseCase<GetAllNotificationsIdleTimeForApplicationIdUseCase.Params, Single<Long>>
-
-val GetAllNotificationsIdleTimeForApplicationIdClass = ParamizedUseCase::class.java

@@ -1,23 +1,20 @@
 package guru.stefma.tino.domain.usecase
 
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+
+interface GetLongestNotificationIdledForApplicationId {
+    suspend operator fun invoke(uid: String, appId: String): Long
+}
 
 class GetLongestNotificationIdledForApplicationIdUseCase @Inject constructor(
     private val getAllNotifications: GetAllNotifications
-) : ParamizedUseCase<GetLongestNotificationIdledForApplicationIdUseCase.Params, Single<Long>> {
+) : GetLongestNotificationIdledForApplicationId {
 
-    override fun invoke(param: Params): Single<Long> {
-        return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
-            .map { it.filter { it.appName == param.appId } }
-            .map { it.map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp } }
-            .map { it.maxBy { it } ?: 0L }
+    override suspend fun invoke(uid: String, appId: String): Long {
+        return getAllNotifications(uid)
+            .filter { it.appName == appId }
+            .map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
+            .maxBy { it } ?: 0L
     }
 
-    class Params(val uid: String, val appId: String)
-
 }
-
-typealias GetLongestNotificationIdledForApplicationId = ParamizedUseCase<GetLongestNotificationIdledForApplicationIdUseCase.Params, Single<Long>>
-
-val GetLongestNotificationIdledForApplicationIdClass = ParamizedUseCase::class.java

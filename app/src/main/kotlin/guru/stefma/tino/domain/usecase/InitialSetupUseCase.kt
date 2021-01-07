@@ -2,9 +2,12 @@ package guru.stefma.tino.domain.usecase
 
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.store.Store
-import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.rx3.rxSingle
+import guru.stefma.tino.store.UserWithUidDoesNotExist
 import javax.inject.Inject
+
+interface InitialSetup {
+    suspend operator fun invoke(): Boolean
+}
 
 class InitialSetupUseCase @Inject constructor(
     private val authentication: Authentication,
@@ -12,36 +15,33 @@ class InitialSetupUseCase @Inject constructor(
     private val generateUserNameAndStore: GenerateUserNameAndStore
 ) : InitialSetup {
 
-    override fun invoke(): Single<Boolean> =
-        rxSingle { authentication.createAnonymousUser() }
-            .flatMap { generateAndStoreUserName() }
-            .flatMap { setCreationDate() }
-            .map { true }
-            .onErrorReturn { false }
+    override suspend fun invoke(): Boolean = try {
+        authentication.createAnonymousUser()
+        generateAndStoreUserName()
+        setCreationDate()
+    } catch (err: Throwable) {
+        false
+    }
 
-    private fun generateAndStoreUserName(): Single<Unit> =
-        rxSingle { store.getUserName(authentication.uid).isNotEmpty() }
-            .onErrorReturn { false }
-            .flatMap { usernameAvailable ->
-                if (usernameAvailable) {
-                    Single.just(Unit)
-                } else {
-                    rxSingle { generateUserNameAndStore() }
-                }
+    private suspend fun generateAndStoreUserName() {
+        if (!doesUserAlreadyExist()) generateUserNameAndStore()
+    }
+
+    private suspend fun doesUserAlreadyExist(): Boolean =
+        try {
+            store.getUserName(authentication.uid).isNotEmpty()
+        } catch (userDoesNotExist: UserWithUidDoesNotExist) {
+            false
+        }
+
+    private suspend fun setCreationDate(): Boolean =
+        try {
+            if (store.getCreationDate(authentication.uid) == 0L) {
+                val unixtimestamp = System.currentTimeMillis() / 1000
+                store.setCreationDate(authentication.uid, unixtimestamp)
             }
-
-    private fun setCreationDate(): Single<Unit> =
-        rxSingle { store.getCreationDate(authentication.uid) != 0L }
-            .onErrorReturn { false }
-            .flatMap { creationDateAvailable ->
-                if (creationDateAvailable) {
-                    Single.just(Unit)
-                } else {
-                    val unixtimestamp = System.currentTimeMillis() / 1000
-                    rxSingle { store.setCreationDate(authentication.uid, unixtimestamp) }
-                }
-            }
-
+            true
+        } catch (userDoesNotExist: UserWithUidDoesNotExist) {
+            false
+        }
 }
-
-typealias InitialSetup = UseCase<Single<Boolean>>

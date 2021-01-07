@@ -3,10 +3,10 @@ package guru.stefma.tino.presentation.statistics.app
 import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.GetAllApplicationIds
-import guru.stefma.tino.domain.usecase.GetAllApplicationIdsUseCase
 import guru.stefma.tino.presentation.util.AppIdToAppNameConverter
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class AppStatisticsViewModel(
@@ -40,7 +40,7 @@ class AppStatisticsViewModel(
         }
         events {
             source {
-                getAllApplicationIds.invoke(GetAllApplicationIdsUseCase.Params(uid))
+                rxSingle { getAllApplicationIds(uid) }
                     .map<Change> { Change.Loaded(it) }
                     .toObservable()
             }

@@ -1,10 +1,12 @@
 package guru.stefma.tino.domain.usecase
 
+import com.google.common.truth.Truth.assertThat
 import guru.stefma.tino.mocks.MockAuthentication
 import guru.stefma.tino.mocks.MockStore
 import guru.stefma.tino.store.UID
 import guru.stefma.tino.store.UserName
 import guru.stefma.tino.store.UserWithUidDoesNotExist
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
 class InitialSetupUseCaseTest {
@@ -14,19 +16,19 @@ class InitialSetupUseCaseTest {
     private val store = MockStore()
 
     private val generateUserNameAndSave = object : GenerateUserNameAndStore {
-        override suspend fun invoke() = Unit
+        var called = false
+        override suspend fun invoke() {
+            called = true
+        }
     }
 
     @Test
     fun `test usecase on success`() {
         val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
 
-        val testObserver = useCase.invoke().test()
+        val initSuccessfully = runBlocking { useCase.invoke() }
 
-        testObserver.await()
-        testObserver.assertValue(true)
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
+        assertThat(initSuccessfully).isTrue()
     }
 
     @Test
@@ -38,12 +40,9 @@ class InitialSetupUseCaseTest {
         }
         val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
 
-        val testObserver = useCase.invoke().test()
+        val initSuccessfully = runBlocking { useCase.invoke() }
 
-        testObserver.await()
-        testObserver.assertValue(false)
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
+        assertThat(initSuccessfully).isFalse()
     }
 
     @Test
@@ -55,12 +54,22 @@ class InitialSetupUseCaseTest {
         }
         val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
 
-        val testObserver = useCase.invoke().test()
+        val initSuccessfully = runBlocking { useCase.invoke() }
 
-        testObserver.await()
-        testObserver.assertValue(true)
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
+        assertThat(initSuccessfully).isTrue()
+        assertThat(generateUserNameAndSave.called).isTrue()
+    }
+
+    @Test
+    fun `test usecase on getUserName success should not call generate name`() {
+        val store = object : MockStore() {
+            override suspend fun getUserName(uid: UID): UserName = "SuperSweetName"
+        }
+        val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
+
+        runBlocking { useCase.invoke() }
+
+        assertThat(generateUserNameAndSave.called).isFalse()
     }
 
     @Test
@@ -70,29 +79,23 @@ class InitialSetupUseCaseTest {
         }
         val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
 
-        val testObserver = useCase.invoke().test()
+        val initSuccessfully = runBlocking { useCase.invoke() }
 
-        testObserver.await()
-        testObserver.assertValue(false)
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
+        assertThat(initSuccessfully).isFalse()
     }
 
     @Test
     fun `test usecase on getCreationDate failure`() {
         val store = object : MockStore() {
             override suspend fun getCreationDate(uid: UID): Long {
-                throw Error()
+                throw UserWithUidDoesNotExist(uid)
             }
         }
         val useCase = InitialSetupUseCase(authentication, store, generateUserNameAndSave)
 
-        val testObserver = useCase.invoke().test()
+        val initSuccessfully = runBlocking { useCase.invoke() }
 
-        testObserver.await()
-        testObserver.assertValue(true)
-        testObserver.assertComplete()
-        testObserver.assertNoErrors()
+        assertThat(initSuccessfully).isFalse()
     }
 
 }

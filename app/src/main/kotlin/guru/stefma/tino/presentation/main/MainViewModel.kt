@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTime
-import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTimeUseCase
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.rx3.rxObservable
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -28,10 +29,9 @@ class MainViewModel @Inject constructor(
         }
         events {
             coldSource {
-                getAllNotificationsAverageTime(
-                    GetAllNotificationsAverageTimeUseCase.Params(authentication.uid)
-                )
-                    .map { Change.AverageTimeLoaded(it) as Change }
+                rxObservable {
+                    getAllNotificationsAverageTime(authentication.uid).collect { send(it) }
+                }.map { Change.AverageTimeLoaded(it) as Change }
             }
         }
     }

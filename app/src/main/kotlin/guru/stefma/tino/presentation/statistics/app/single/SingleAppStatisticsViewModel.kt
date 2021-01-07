@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.model.ApplicationStatistics
 import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationId
-import guru.stefma.tino.domain.usecase.GetStatisticsForApplicationIdUseCase
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
+import kotlinx.coroutines.rx3.rxSingle
 import javax.inject.Inject
 
 class SingleAppStatisticsViewModel(
@@ -30,7 +30,7 @@ class SingleAppStatisticsViewModel(
         }
         events {
             source {
-                getStatisticsForApplicationId(GetStatisticsForApplicationIdUseCase.Params(uid, appId))
+                rxSingle { getStatisticsForApplicationId(uid, appId) }
                     .map<Change> { Change.Loaded(it) }
                     .toObservable()
             }
@@ -56,6 +56,10 @@ class SingleAppStatisticsViewModelHolder @Inject constructor(
     private val getStatisticsForApplicationId: GetStatisticsForApplicationId
 ) : ViewModelHolder<Pair<@JvmSuppressWildcards String, @JvmSuppressWildcards String>, SingleAppStatisticsViewModel>() {
     override fun create(params: Pair<String, String>): SingleAppStatisticsViewModel {
-        return SingleAppStatisticsViewModel(params.first, params.second, getStatisticsForApplicationId)
+        return SingleAppStatisticsViewModel(
+            params.first,
+            params.second,
+            getStatisticsForApplicationId
+        )
     }
 }

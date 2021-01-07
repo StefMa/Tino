@@ -7,11 +7,15 @@ import guru.stefma.tino.store.UserNameAlreadyTakenException
 import java.util.*
 import javax.inject.Inject
 
+interface GenerateUserNameAndStore {
+    suspend operator fun invoke()
+}
+
 class GenerateUserNameAndStoreUseCase @Inject constructor(
     private val store: Store,
     private val nameGenerator: NameGenerator,
     private val authentication: Authentication
-) : SuspendingUseCase<Unit> {
+) : GenerateUserNameAndStore {
 
     private val maxRetryCount = 5
     private var retryCount = 0
@@ -31,7 +35,3 @@ class GenerateUserNameAndStoreUseCase @Inject constructor(
         }
     }
 }
-
-typealias GenerateUserNameAndStore = SuspendingUseCase<Unit>
-
-val GenerateUserNameAndStoreClass = SuspendingUseCase::class.java

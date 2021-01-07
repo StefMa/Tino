@@ -1,29 +1,26 @@
 package guru.stefma.tino.domain.usecase
 
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+
+interface GetAllNotificationsAverageTimeForApplicationId {
+    suspend operator fun invoke(uid: String, appId: String): Long
+}
 
 class GetAllNotificationsAverageTimeForApplicationIdUseCase @Inject constructor(
     private val getAllNotifications: GetAllNotifications
 ) : GetAllNotificationsAverageTimeForApplicationId {
 
-    override fun invoke(param: Params): Single<Long> {
-        return getAllNotifications(GetAllNotificationsUseCase.Params(param.uid))
-            .map { it.filter { it.appName == param.appId } }
-            .map { notifications ->
-                if (notifications.isEmpty()) return@map 0L
+    override suspend fun invoke(uid: String, appId: String): Long {
+        return getAllNotifications(uid)
+            .filter { it.appName == appId }
+            .ifEmpty { return 0L }
+            .run {
+                val notificationTime = this
+                    .map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
+                    .sum()
 
-                val notificationTime =
-                    notifications
-                        .map { it.notificationRemoveAt.unixtimestamp - it.notificationPostedAt.unixtimestamp }
-                        .sum()
-
-                notificationTime / notifications.size
+                notificationTime / size
             }
     }
 
-    class Params(val uid: String, val appId: String)
-
 }
-
-typealias GetAllNotificationsAverageTimeForApplicationId = ParamizedUseCase<GetAllNotificationsAverageTimeForApplicationIdUseCase.Params, Single<Long>>
