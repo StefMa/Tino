@@ -11,6 +11,7 @@ import guru.stefma.tino.presentation.util.asFormattedTime
 import guru.stefma.tino.presentation.util.navigation.showFragment
 import guru.stefma.tino.presentation.util.viewbinding.bind
 import guru.stefma.tino.presentation.util.viewmodel.getViewModel
+import guru.stefma.tino.screenshot.sharer.shareScreenshotFromView
 import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.util.*
 
@@ -44,6 +45,10 @@ class StatisticsFragment : Fragment() {
 
         statisticsPerApp.setOnClickListener {
             showFragment(createAppStatisticsFragment(uid))
+        }
+
+        share.setOnClickListener {
+            shareScreenshotFromView(shareableView, requireActivity().window)
         }
 
         val viewModel = getViewModel<StatisticsViewModelHolder>().get(uid)

@@ -85,6 +85,7 @@ dependencies {
     implementation(project(":authentication"))
     implementation(project(":store"))
     implementation(project(":name-generator"))
+    implementation(project(":screenshot-sharer"))
 
     releaseImplementation("com.google.firebase:firebase-crashlytics:17.0.0")
 

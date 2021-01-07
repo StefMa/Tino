@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   android:background="?android:attr/windowBackground">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
 
     <TextView
         android:id="@+id/statisticsTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif-thin"
         android:text="@string/generic_statistics"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/share"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/statisticsTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/statisticsTitle"
+        app:srcCompat="@drawable/ic_share"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/notificationCountCard"
@@ -39,7 +51,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You received 1000 notifications"/>
+            tools:text="You received 1000 notifications" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -47,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         app:cardBackgroundColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="@id/statisticsTitle"
+        app:layout_constraintEnd_toEndOf="@id/share"
         app:layout_constraintTop_toTopOf="@id/notificationCountCard"
         app:layout_constraintWidth_percent="0.45">
 
@@ -60,7 +72,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You have a idle time from all notifications of 1h:03m:12s"/>
+            tools:text="You have a idle time from all notifications of 1h:03m:12s" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -82,7 +94,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="You received from WhatsApp the most notifications: 900"/>
+            tools:text="You received from WhatsApp the most notifications: 900" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
@@ -103,20 +115,29 @@
             android:gravity="center"
             android:padding="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="The longest notification idled for 120 seconds from Gmail"/>
+            tools:text="The longest notification idled for 120 seconds from Gmail" />
     </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/shareableView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/longestNotificationIdleTimeFromAppCard"
+        app:layout_constraintEnd_toEndOf="@id/notificationIdleTimeCard"
+        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
+        app:layout_constraintTop_toTopOf="@id/notificationCountCard" />
 
     <Button
         android:id="@+id/statisticsPerApp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/statistics_per_app"
         android:textColor="@android:color/black"
-        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
         app:layout_constraintEnd_toEndOf="@id/longestNotificationIdleTimeFromAppCard"
-        app:layout_constraintTop_toBottomOf="@id/mostNotificationFromAppCard"
-        android:text="@string/statistics_per_app"/>
+        app:layout_constraintStart_toStartOf="@id/notificationCountCard"
+        app:layout_constraintTop_toBottomOf="@id/mostNotificationFromAppCard" />
 
     <TextView
         android:id="@+id/collectStatisticSince"
@@ -128,6 +149,6 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="Counting since 03.01.1993"/>
+        tools:text="Counting since 03.01.1993" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

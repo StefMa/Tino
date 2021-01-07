@@ -19,7 +19,7 @@ private fun String.toAppName(context: Context): String = context.labelForApplica
 
 private fun Context.labelForApplicationId(appId: String): String =
     try {
-        packageManager.getApplicationInfo(appId, PackageManager.MATCH_UNINSTALLED_PACKAGES)
+        packageManager.getApplicationInfo(appId, 0)
             .loadLabel(packageManager)
             .toString()
     } catch (exception: PackageManager.NameNotFoundException) {
