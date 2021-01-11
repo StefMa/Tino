@@ -32,14 +32,27 @@
         app:srcCompat="@drawable/ic_share"
         tools:ignore="ContentDescription" />
 
+    <TextView
+        android:id="@+id/statisticsSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/generic_statistics"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/statisticsTitle"
+        app:layout_constraintTop_toBottomOf="@id/statisticsTitle"
+        tools:text="from Gaius Iulius Caesar"
+        tools:visibility="visible" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/notificationCountCard"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="@id/statisticsTitle"
-        app:layout_constraintTop_toBottomOf="@id/statisticsTitle"
+        app:layout_constraintStart_toStartOf="@id/statisticsSubTitle"
+        app:layout_constraintTop_toBottomOf="@id/statisticsSubTitle"
         app:layout_constraintWidth_percent="0.45">
 
         <TextView

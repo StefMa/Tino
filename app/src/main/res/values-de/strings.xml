@@ -7,18 +7,19 @@
     <string name="account_user_not_exist" >Benutzer \"%s\" existiert nicht</string>
 
     <!-- Statistics -->
-    <string name="statistics_notification_count">Du erhielst %d notifications</string>
-    <string name="statistics_notification_idle_time">Du hast eine Wartezeit von allen notification von %s</string>
-    <string name="statistics_notification_most_from_app">Du erhielst von %s die meisten notifications: %d</string>
+    <string name="statistics_notification_count">%d notification erhalten</string>
+    <string name="statistics_notification_idle_time">Die Wartezeit von allen notification ist %s</string>
+    <string name="statistics_notification_most_from_app">Die meisten notification camen von %s: %d</string>
     <string name="statistics_notification_longest_idle_time_from_app">Die laengste Wartzeit einer notification war für %s von %s</string>
     <string name="statistics_counting_since">Zaehle seit:\n%s</string>
     <string name="statistics_per_app">Statistiken per App</string>
 
     <!-- Single App Statistics -->
-    <string name="statistics_single_app_notification_count">Du erhielst %d notifications</string>
-    <string name="statistics_single_app_notification_idle_time">Du hast eine Wartezeit von allen notification von %s</string>
+    <string name="statistics_single_app_subtitle">von %s</string>
+    <string name="statistics_single_app_notification_count">%d notification erhalten</string>
+    <string name="statistics_single_app_notification_idle_time">Die Wartezeit von allen notification ist %s</string>
     <string name="statistics_single_app_notification_longest_idle_time">Die laengste Wartzeit einer notification war für %s</string>
-    <string name="statistics_single_app_notification_average">Im hast eine durchschnittliche Wartzeit sind deine notifications von %s</string>
+    <string name="statistics_single_app_notification_average">All notifications haben eine durchschnittliche Wartzeit von %s</string>
 
     <!-- Debug -->
     <string name="debug_test_notification">Test notification</string>

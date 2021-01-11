@@ -1,6 +1,11 @@
 package guru.stefma.tino.presentation.statistics
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +61,15 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun StatisticsViewModel.bind() {
+        bind(subTitle) {
+            if (it.isNotEmpty()) {
+                statisticsSubTitle.text = getString(
+                    R.string.statistics_single_app_subtitle,
+                    it
+                )
+                statisticsSubTitle.visibility = View.VISIBLE
+            }
+        }
         bind(data) {
             notificationCount.text = getString(
                 R.string.statistics_notification_count,

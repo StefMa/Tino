@@ -55,8 +55,10 @@ internal class LocalStore : Store {
     }
 
     override suspend fun getUserName(uid: UID): UserName =
-        DatabaseHolder.database.accountDao().getAccount(uid)?.username
+        if (uid == "2") "StefMa"
+        else DatabaseHolder.database.accountDao().getAccount(uid)?.username
             ?: throw UserWithUidDoesNotExist(uid)
+
 
     override suspend fun getUid(username: UserName): UID =
         if (username == "StefMa") "2" else throw UserWithNameDoesNotExist(username)

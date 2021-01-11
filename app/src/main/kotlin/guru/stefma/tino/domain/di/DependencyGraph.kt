@@ -131,6 +131,9 @@ abstract class UseCaseModule {
     @Binds
     abstract fun provideGetStatisticsForApplicationIdUseCase(impl: GetStatisticsForApplicationIdUseCase): GetStatisticsForApplicationId
 
+    @Binds
+    abstract fun provideGeetUserName(impl: GetUserNameUseCase): GetUserName
+
 }
 
 @Module
