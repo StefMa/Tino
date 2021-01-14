@@ -1,9 +1,9 @@
 package guru.stefma.tino.presentation.statistics
 
-import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.domain.usecase.*
+import guru.stefma.tino.presentation.util.viewmodel.DisposableViewModel
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.functions.Function6
@@ -19,7 +19,7 @@ class StatisticsViewModel(
     getLongestNotificationIdled: GetLongestNotificationIdled,
     getAppWithMostNotifications: GetAppWithMostNotifications,
     getCreationDate: GetCreationDate
-) : ViewModel() {
+) : DisposableViewModel() {
 
     private val knot = knot<State, Change, Unit> {
         state {
@@ -51,7 +51,7 @@ class StatisticsViewModel(
                 ).toObservable()
             }
         }
-    }
+    }.also { disposables.add(it) }
 
     val data = knot.state
         .ofType(State.Ready::class.java)

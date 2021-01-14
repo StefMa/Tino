@@ -1,9 +1,9 @@
 package guru.stefma.tino.presentation.main
 
-import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.domain.usecase.GetAllNotificationsAverageTime
+import guru.stefma.tino.presentation.util.viewmodel.DisposableViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.rx3.rxObservable
 import javax.inject.Inject
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     authentication: Authentication,
     getAllNotificationsAverageTime: GetAllNotificationsAverageTime
-) : ViewModel() {
+) : DisposableViewModel() {
 
     private val knot = knot<State, Change, Unit> {
         state {
@@ -34,7 +34,7 @@ class MainViewModel @Inject constructor(
                 }.map { Change.AverageTimeLoaded(it) as Change }
             }
         }
-    }
+    }.also { disposables.add(it) }
 
     val averageTime = knot.state
         .ofType(State.Ready::class.java)

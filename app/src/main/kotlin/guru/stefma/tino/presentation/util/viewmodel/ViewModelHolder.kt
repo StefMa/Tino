@@ -1,8 +1,6 @@
 package guru.stefma.tino.presentation.util.viewmodel
 
-import androidx.lifecycle.ViewModel
-
-abstract class ViewModelHolder<P, T : ViewModel> : ViewModel() {
+abstract class ViewModelHolder<P, T : DisposableViewModel> : DisposableViewModel() {
     private var cachedViewModel: T? = null
 
     fun get(params: P): T {
@@ -10,4 +8,9 @@ abstract class ViewModelHolder<P, T : ViewModel> : ViewModel() {
     }
 
     protected abstract fun create(params: P): T
+
+    override fun onCleared() {
+        super.onCleared()
+        cachedViewModel?.disposables?.clear()
+    }
 }

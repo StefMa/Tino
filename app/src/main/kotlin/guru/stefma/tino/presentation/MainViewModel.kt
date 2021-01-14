@@ -1,8 +1,8 @@
 package guru.stefma.tino.presentation
 
-import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.InitialSetup
+import guru.stefma.tino.presentation.util.viewmodel.DisposableViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.BiFunction
 import kotlinx.coroutines.rx3.rxObservable
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val initialSetup: InitialSetup
-) : ViewModel() {
+) : DisposableViewModel() {
 
     private val knot = knot<State, Change, Action> {
         state {
@@ -53,7 +53,7 @@ class MainViewModel @Inject constructor(
                 Observable.just(Change.ShowSplashscreen)
             }
         }
-    }
+    }.also { disposables.add(it) }
 
     val showSplashscreen = knot.state
         .map { it == State.Splashscreen }

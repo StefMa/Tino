@@ -1,9 +1,9 @@
 package guru.stefma.tino.presentation.statistics.app
 
-import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.domain.usecase.GetAllApplicationIds
 import guru.stefma.tino.presentation.util.AppIdToAppNameConverter
+import guru.stefma.tino.presentation.util.viewmodel.DisposableViewModel
 import guru.stefma.tino.presentation.util.viewmodel.ViewModelHolder
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.rx3.rxSingle
@@ -13,7 +13,7 @@ class AppStatisticsViewModel(
     uid: String,
     getAllApplicationIds: GetAllApplicationIds,
     appIdToAppNameConverter: AppIdToAppNameConverter
-) : ViewModel() {
+) : DisposableViewModel() {
 
     private val knot = knot<State, Change, Unit> {
         state {
@@ -45,7 +45,7 @@ class AppStatisticsViewModel(
                     .toObservable()
             }
         }
-    }
+    }.also { disposables.add(it) }
 
     val appStatisticsInfo: Observable<List<AppStatisticsInformation>> = knot.state
         .ofType(State.Ready::class.java)

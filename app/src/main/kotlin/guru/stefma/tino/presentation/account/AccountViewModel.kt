@@ -1,9 +1,9 @@
 package guru.stefma.tino.presentation.account
 
-import androidx.lifecycle.ViewModel
 import de.halfbit.knot3.knot
 import guru.stefma.tino.authentication.Authentication
 import guru.stefma.tino.presentation.util.Signaler
+import guru.stefma.tino.presentation.util.viewmodel.DisposableViewModel
 import guru.stefma.tino.store.Store
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.rx3.rxSingle
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val authentication: Authentication,
     private val store: Store
-) : ViewModel() {
+) : DisposableViewModel() {
 
     private val showUserStatisticsSignal = Signaler<String>()
     private val showUserNameSaveFailedSignal = Signaler<Unit>()
@@ -101,7 +101,7 @@ class AccountViewModel @Inject constructor(
                     }
             }
         }
-    }
+    }.also { disposables.add(it) }
 
     val username = knot.state
         .ofType(State.Ready::class.java)
